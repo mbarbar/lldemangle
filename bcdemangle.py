@@ -39,6 +39,15 @@ def demangle_names(mangled_names):
 
     return demangled_names
 
+def replace_mangled_names(bcfile, outfile, mangle_map):
+    with open(bcfile, "r") as bc, open(outfile, "w") as of:
+        for line in bc.readlines():
+            line_mangled_names = re.findall(MANGLED_NAME_RE, line)
+            for mangled_name in line_mangled_names:
+                line = line.replace(mangled_name, mangle_map[mangled_name])
+
+            of.write(line)
+
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print USAGE
@@ -49,4 +58,5 @@ if __name__ == "__main__":
 
     mangled_names = read_mangled_names(bcfile)
     mangle_map = demangle_names(mangled_names)
+    replace_mangled_names(bcfile, outfile, mangle_map)
 
