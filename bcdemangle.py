@@ -3,6 +3,7 @@
 # Requires c++filt executable.
 
 import re
+import subprocess
 import sys
 
 USAGE =\
@@ -27,6 +28,13 @@ def read_mangled_names(bcfile):
 
     return mangled_names
 
+def demangle_names(mangled_names):
+    demangled_names = {}
+    for mangled_name in mangled_names:
+        demangled_name = subprocess.check_output(["c++filt", mangled_name])
+        demangled_names[mangled_name] = demangled_name
+
+    return demangled_names
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -36,6 +44,5 @@ if __name__ == "__main__":
     bcfile = sys.argv[1]
 
     mangled_names = read_mangled_names(bcfile)
-    for i in mangled_names:
-        print i
+    mangle_map = demangle_names(mangled_names)
 
