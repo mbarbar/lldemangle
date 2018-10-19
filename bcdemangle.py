@@ -8,10 +8,10 @@ import sys
 
 USAGE =\
 """\
-Usage: {} [options] bcfile
+Usage: {} [options] bcfile outfile
 
 options:
-  [todo] todo
+  [none yet]
 """.format(sys.argv[0])
 
 # Should work with clang.
@@ -37,11 +37,12 @@ def demangle_names(mangled_names):
     return demangled_names
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         print USAGE
         sys.exit(1)
 
-    bcfile = sys.argv[1]
+    bcfile  = sys.argv[1]
+    outfile = sys.argv[2]
 
     mangled_names = read_mangled_names(bcfile)
     mangle_map = demangle_names(mangled_names)
