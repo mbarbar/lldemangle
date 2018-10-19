@@ -31,6 +31,9 @@ def read_mangled_names(bcfile):
 def demangle_names(mangled_names):
     demangled_names = {}
     for mangled_name in mangled_names:
+        if mangled_name in demangled_names.keys():
+            continue
+
         demangled_name = subprocess.check_output(["c++filt", mangled_name])
         demangled_names[mangled_name] = demangled_name
 
