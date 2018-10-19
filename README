@@ -1,0 +1,12 @@
+Simple script that will replace mangled names in ll file with their
+demangled counterparts. Purpose is mainly readability during debugging
+when working with these files.
+
+REQUIRES:
+  - Python 2 (or 3, probably)
+  - c++filt
+
+Usage: python lldemangle [options] llfile outfile
+
+options:
+  [none yet]
