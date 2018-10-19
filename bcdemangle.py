@@ -35,7 +35,7 @@ def demangle_names(mangled_names):
             continue
 
         demangled_name = subprocess.check_output(["c++filt", mangled_name])
-        demangled_names[mangled_name] = demangled_name
+        demangled_names[mangled_name] = demangled_name.strip()
 
     return demangled_names
 
