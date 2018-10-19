@@ -50,7 +50,7 @@ def replace_mangled_names(llfile, outfile, mangle_map):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print USAGE
+        print(USAGE)
         sys.exit(1)
 
     llfile  = sys.argv[1]
