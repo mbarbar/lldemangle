@@ -1,5 +1,5 @@
 #
-# bcdemangle.py - demangle C++ names in an LLVM bc file.
+# lldemangle.py - demangle C++ names in an LLVM ll file.
 # Requires c++filt executable.
 
 import re
@@ -8,7 +8,7 @@ import sys
 
 USAGE =\
 """\
-Usage: {} [options] bcfile outfile
+Usage: {} [options] llfile outfile
 
 options:
   [none yet]
@@ -17,10 +17,10 @@ options:
 # Should work with clang.
 MANGLED_NAME_RE = re.compile("_Z[a-zA-Z0-9_]*")
 
-def read_mangled_names(bcfile):
+def read_mangled_names(llfile):
     mangled_names = set()
 
-    with open(bcfile, "r") as f:
+    with open(llfile, "r") as f:
         for line in f.readlines():
             line_mangled_names = re.findall(MANGLED_NAME_RE, line)
             for mangled_name in line_mangled_names:
@@ -39,9 +39,9 @@ def demangle_names(mangled_names):
 
     return demangled_names
 
-def replace_mangled_names(bcfile, outfile, mangle_map):
-    with open(bcfile, "r") as bc, open(outfile, "w") as of:
-        for line in bc.readlines():
+def replace_mangled_names(llfile, outfile, mangle_map):
+    with open(llfile, "r") as ll, open(outfile, "w") as of:
+        for line in ll.readlines():
             line_mangled_names = re.findall(MANGLED_NAME_RE, line)
             for mangled_name in line_mangled_names:
                 line = line.replace(mangled_name, mangle_map[mangled_name])
@@ -53,10 +53,10 @@ if __name__ == "__main__":
         print USAGE
         sys.exit(1)
 
-    bcfile  = sys.argv[1]
+    llfile  = sys.argv[1]
     outfile = sys.argv[2]
 
-    mangled_names = read_mangled_names(bcfile)
+    mangled_names = read_mangled_names(llfile)
     mangle_map = demangle_names(mangled_names)
-    replace_mangled_names(bcfile, outfile, mangle_map)
+    replace_mangled_names(llfile, outfile, mangle_map)
 
